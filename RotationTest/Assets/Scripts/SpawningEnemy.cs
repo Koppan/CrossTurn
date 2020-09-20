@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class SpawningEnemy : MonoBehaviour
@@ -10,6 +11,10 @@ public class SpawningEnemy : MonoBehaviour
 
     private int spawn;
     private int spawnIndex;
+
+    private List<GameObject> enemies = new List<GameObject>();
+    private GameObject ENEMY;
+    private string direction;
 
 
     // Start is called before the first frame update
@@ -27,15 +32,19 @@ public class SpawningEnemy : MonoBehaviour
         switch (spawn)
         {
             case 1:
+                direction = "DOWN";
                 spawnTop(a);
                 break;
             case 2:
+                direction = "UP";
                 spawnBottom(a);
                 break;
             case 3:
+                direction = "RIGHT";
                 spawnLeft(a);
                 break;
             case 4:
+                direction = "LEFT";
                 spawnRight(a);
                 break;
             default:
@@ -65,14 +74,42 @@ public class SpawningEnemy : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(2);
-            a.transform.Translate(0,7,0);
             spawnEnemy(a);
+            enemies.Add(a);
         }
 
     }
 
+    private void Move(GameObject a, string dir){
+        if (dir == "UP")
+        {
+            a.transform.Translate(0, movementSpeed * Time.deltaTime, 0);
+        }else if (dir == "DOWN")
+        {
+            a.transform.Translate(0, -(movementSpeed * Time.deltaTime), 0);
+        }else if (dir == "LEFT")
+        {
+            a.transform.Translate( -(movementSpeed * Time.deltaTime), 0, 0);
+        }else if (dir == "RIGHT")
+        {
+            a.transform.Translate(movementSpeed * Time.deltaTime, 0, 0);
+        }
+    }
+
+
+    void OnCollisionEnter(Collision col){
+        if (col.gameObject.name == "PlayerHearth")
+        {
+            Debug.Log("COLLISIIIOOOONNN!!!");
+            Debug.Log(enemies);
+        }
+    }
+
+
     // Update is called once per frame
     void Update()
     {
+        ENEMY = enemies[0];
+        Move(ENEMY, direction);
     }
 }
