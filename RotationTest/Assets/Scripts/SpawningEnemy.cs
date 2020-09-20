@@ -5,47 +5,83 @@ using UnityEngine;
 public class SpawningEnemy : MonoBehaviour
 {
 
-    public GameObject enemy;
-    public int[] spawnPos;
+    // public GameObject enemy;
     public int movementSpeed;
+    public int spawnPosXY;
 
+    private List<int> spawnPos = new List<int>();
     private int spawn;
     private int spawnIndex;
+
+    private int score;
 
     private List<GameObject> enemies = new List<GameObject>();
     private GameObject ENEMY;
     private string direction;
+    private Vector3 pos;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        GameObject a = Instantiate(enemy) as GameObject; 
-        StartCoroutine(waveOfDDoooom(a));
+        // GameObject a = Instantiate(enemy) as GameObject; 
+        // StartCoroutine(waveOfDDoooom());
+        spawnPos.Add(1);
+        spawnPos.Add(2);
+        spawnPos.Add(3);
+        spawnPos.Add(4);
+        spawnPos.Add(5);
+        spawnPos.Add(6);
+        spawnPos.Add(7);
+        spawnPos.Add(8);
     }
 
-    private void spawnEnemy(GameObject a){
+    private void spawnEnemy(){
 
-        spawnIndex = Random.Range (0, spawnPos.Length);
+        spawnIndex = Random.Range (0, spawnPos.Count);
         spawn = spawnPos[spawnIndex];
 
         switch (spawn)
         {
             case 1:
-                direction = "DOWN";
-                spawnTop(a);
+                direction = "UP";
+                pos = new Vector3(0, -spawnPosXY, 0);
+                spawning(pos);
                 break;
             case 2:
-                direction = "UP";
-                spawnBottom(a);
+                direction = "DOWN";
+                pos = new Vector3(0, spawnPosXY, 0);
+                spawning(pos);
                 break;
             case 3:
-                direction = "RIGHT";
-                spawnLeft(a);
+                direction = "LEFT";
+                pos = new Vector3(spawnPosXY, 0, 0);
+                spawning(pos);
                 break;
             case 4:
-                direction = "LEFT";
-                spawnRight(a);
+                direction = "RIGHT";
+                pos = new Vector3(-spawnPosXY, 0, 0);
+                spawning(pos);
+                break;
+            case 5:
+                direction = "LEFTDOWN";
+                pos = new Vector3(spawnPosXY, spawnPosXY, 0);
+                spawning(pos);
+                break;
+            case 6:
+                direction = "LEFTUP";
+                pos = new Vector3(spawnPosXY, -spawnPosXY, 0);
+                spawning(pos);
+                break;
+            case 7:
+                direction = "RIGHTDOWN";
+                pos = new Vector3(-spawnPosXY, spawnPosXY, 0);
+                spawning(pos);
+                break;
+            case 8:
+                direction = "RIGHTUP";
+                pos = new Vector3(-spawnPosXY, -spawnPosXY, 0);
+                spawning(pos);
                 break;
             default:
                 Debug.Log("Error");
@@ -53,55 +89,62 @@ public class SpawningEnemy : MonoBehaviour
         }
     }
 
-
-    private void spawnTop(GameObject a){
-        a.transform.position = new Vector3(0, 10, 0);
+    private void spawning(Vector3 pos){
+        transform.position = pos;
     }
 
-    private void spawnBottom(GameObject a){
-        a.transform.position = new Vector3(0, -10, 0);
-    }
+    // IEnumerator waveOfDDoooom(){
+    //     while (true)
+    //     {
+    //         yield return new WaitForSeconds(2);
+    //         spawnEnemy();
+    //         // enemies.Add();
+    //         // ENEMY = enemies[0];
+    //     }
 
-    private void spawnLeft(GameObject a){
-        a.transform.position = new Vector3(-10, 0, 0);
-    }
+    // }
 
-    private void spawnRight(GameObject a){
-        a.transform.position = new Vector3(10, 0, 0);
-    }
-
-    IEnumerator waveOfDDoooom(GameObject a){
-        while (true)
-        {
-            yield return new WaitForSeconds(2);
-            spawnEnemy(a);
-            enemies.Add(a);
-        }
-
-    }
-
-    private void Move(GameObject a, string dir){
+    private void Move(string dir){
         if (dir == "UP")
         {
-            a.transform.Translate(0, movementSpeed * Time.deltaTime, 0);
+            transform.Translate(0, movementSpeed * Time.deltaTime, 0);
         }else if (dir == "DOWN")
         {
-            a.transform.Translate(0, -(movementSpeed * Time.deltaTime), 0);
+            transform.Translate(0, -movementSpeed * Time.deltaTime, 0);
         }else if (dir == "LEFT")
         {
-            a.transform.Translate( -(movementSpeed * Time.deltaTime), 0, 0);
+            transform.Translate( -movementSpeed * Time.deltaTime, 0, 0);
         }else if (dir == "RIGHT")
         {
-            a.transform.Translate(movementSpeed * Time.deltaTime, 0, 0);
+            transform.Translate(movementSpeed * Time.deltaTime, 0, 0);
+            Debug.Log("Moving Right");
+        }else if (dir == "LEFTDOWN")
+        {
+            transform.Translate(-movementSpeed * Time.deltaTime, -movementSpeed * Time.deltaTime, 0);
+        }else if (dir == "LEFTUP")
+        {
+            transform.Translate(- movementSpeed * Time.deltaTime, movementSpeed * Time.deltaTime, 0);
+        }else if (dir == "RIGHTUP")
+        {
+            transform.Translate(movementSpeed * Time.deltaTime, movementSpeed * Time.deltaTime, 0);
+
+        }else if (dir == "RIGHTDOWN")
+        {
+            transform.Translate(movementSpeed * Time.deltaTime, -movementSpeed * Time.deltaTime, 0);   
         }
     }
 
 
     void OnCollisionEnter(Collision col){
-        if (col.gameObject.name == "PlayerHearth")
+        // Debug.Log("HIT!");
+        // Debug.Log(col.collider.name);
+        spawnEnemy();
+        if (col.collider.name == "Playewr.1" || col.collider.name == "Player.2")
         {
-            Debug.Log("COLLISIIIOOOONNN!!!");
-            Debug.Log(enemies);
+            score ++;
+        }else if (col.collider.name == "PlayerHearth")
+        {
+            score -= 10;
         }
     }
 
@@ -109,7 +152,7 @@ public class SpawningEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ENEMY = enemies[0];
-        Move(ENEMY, direction);
+        Move(direction);
+        Debug.Log(score);
     }
 }
