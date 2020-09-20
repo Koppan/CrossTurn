@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpawningEnemy : MonoBehaviour
 {
@@ -8,12 +9,13 @@ public class SpawningEnemy : MonoBehaviour
     // public GameObject enemy;
     public int movementSpeed;
     public int spawnPosXY;
+    public Text ScoreLabel;
 
     private List<int> spawnPos = new List<int>();
     private int spawn;
     private int spawnIndex;
 
-    private int score;
+    private static int scorePoints;
 
     private List<GameObject> enemies = new List<GameObject>();
     private GameObject ENEMY;
@@ -117,7 +119,6 @@ public class SpawningEnemy : MonoBehaviour
         }else if (dir == "RIGHT")
         {
             transform.Translate(movementSpeed * Time.deltaTime, 0, 0);
-            Debug.Log("Moving Right");
         }else if (dir == "LEFTDOWN")
         {
             transform.Translate(-movementSpeed * Time.deltaTime, -movementSpeed * Time.deltaTime, 0);
@@ -136,16 +137,21 @@ public class SpawningEnemy : MonoBehaviour
 
 
     void OnCollisionEnter(Collision col){
-        // Debug.Log("HIT!");
-        // Debug.Log(col.collider.name);
         spawnEnemy();
-        if (col.collider.name == "Playewr.1" || col.collider.name == "Player.2")
+        if (col.collider.name == "Player.1" || col.collider.name == "Player.2")
         {
-            score ++;
+            scorePoints++;
+            UpdateScore(scorePoints);
         }else if (col.collider.name == "PlayerHearth")
         {
-            score -= 10;
+            scorePoints -= 10;
+            UpdateScore(scorePoints);
         }
+    }
+
+    private void UpdateScore(int points){
+        ScoreLabel.text = "Score: " + scorePoints;
+        Debug.Log(scorePoints);
     }
 
 
@@ -153,6 +159,5 @@ public class SpawningEnemy : MonoBehaviour
     void Update()
     {
         Move(direction);
-        Debug.Log(score);
     }
 }
