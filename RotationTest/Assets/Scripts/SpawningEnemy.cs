@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpawningEnemy : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class SpawningEnemy : MonoBehaviour
     // public GameObject enemy;
     public int movementSpeed;
     public int spawnPosXY;
+    public Text ScoreLabel;
 
     private List<int> spawnPos = new List<int>();
     private int spawn;
@@ -145,15 +147,25 @@ public class SpawningEnemy : MonoBehaviour
             AudioSource audio = col.gameObject.GetComponent<AudioSource>();
             audio.Play();
             score ++;
-        }else if (col.collider.name == "PlayerHearth")
+            UpdateScore(score);
+        }
+        else if (col.collider.name == "PlayerHearth")
         {
             //Sound wenn das Herz gehittet ist
             AudioSource audio = col.gameObject.GetComponent<AudioSource>();
             audio.Play();
             score -= 10;
+            UpdateScore(score);
         }
-    }
+        
 
+        
+
+    }
+    private void UpdateScore(int points)
+    {
+        ScoreLabel.text = "Score: " + points;
+    }
 
     // Update is called once per frame
     void Update()

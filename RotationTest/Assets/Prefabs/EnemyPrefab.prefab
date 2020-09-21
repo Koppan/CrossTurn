@@ -107,6 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856eab1f7a9b6473493b03f528d1c2d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  spawnPos: 
   movementSpeed: 0
+  spawnPosXY: 0
+  ScoreLabel: {fileID: 0}
