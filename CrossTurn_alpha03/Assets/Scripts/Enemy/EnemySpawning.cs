@@ -7,7 +7,6 @@ using System;
 public class EnemySpawning : MonoBehaviour
 {
 
-
     [SerializeField]
     private float spawnRadius = 10f;
 
@@ -19,6 +18,7 @@ public class EnemySpawning : MonoBehaviour
 
     private GameObject spawnedEnemy;
     private Vector3 pos;
+
 
     // Start is called before the first frame update
     void Start()

@@ -14,7 +14,7 @@ public class player_arm_sound : MonoBehaviour
     }
 
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
         if (audioSource != null)
             audioSource.PlayOneShot(triggerSound, 0.7f);

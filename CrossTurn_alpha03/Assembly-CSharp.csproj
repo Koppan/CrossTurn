@@ -39,9 +39,11 @@
      <Compile Include="Assets\Scripts\Collision\EnemyDestroyer.cs" />
      <Compile Include="Assets\Scripts\Collision\EnemyPlayerCollision.cs" />
      <Compile Include="Assets\Scripts\Collision\Hearth_collision.cs" />
+     <Compile Include="Assets\Scripts\Collision\ScoreCollision.cs" />
      <Compile Include="Assets\Scripts\Enemy\EnemyMovement.cs" />
      <Compile Include="Assets\Scripts\Enemy\EnemySpawning.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\ScoringSystem\ScoringSystemHandler.cs" />
      <Compile Include="Assets\Scripts\Sound\Hearth_sound.cs" />
      <Compile Include="Assets\Scripts\Sound\player_arm_sound.cs" />
     <Reference Include="UnityEngine">

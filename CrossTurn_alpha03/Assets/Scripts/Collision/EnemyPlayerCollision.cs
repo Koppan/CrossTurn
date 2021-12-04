@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyPlayerCollision : MonoBehaviour
 {
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
         //print($"{gameObject.name} collided with {col.collider.name}");
         Destroy(gameObject);
